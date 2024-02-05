@@ -1,0 +1,6 @@
+.DS_Store
+results/**
+resources/**
+logs/**
+.snakemake
+.snakemake/**
