@@ -1,9 +1,9 @@
-# Snakemake workflow: `dnaseq-analyzer`
+# Snakemake workflow: `DNA2A-seq-analyzer`
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥6.3.0-brightgreen.svg)](https://snakemake.github.io)
 
 
-A Snakemake workflow for analyzing raw DNA sequences. `dnaseq-analyzer is a comprehensive toolkit for the automated analysis of eukaryotic long-read sequencing data, particularly Oxford Nanopore Technologies (ONT) raw data, using Snakemake.`
+A Snakemake workflow for analyzing raw DNA sequences. `DNA2A (DNA (A)ssembly and (A)nalyzer) is a comprehensive toolkit for the automated analysis of eukaryotic long-read sequencing data, particularly Oxford Nanopore Technologies (ONT) raw data, using Snakemake.`
 
 
 ## Usage
