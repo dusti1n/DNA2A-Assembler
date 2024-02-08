@@ -6,3 +6,4 @@ dependencies:
   - snakemake
   - python=3.8.15
   - ruamel.yaml
+  - graphviz

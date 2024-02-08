@@ -4,6 +4,8 @@ num_cores = os.cpu_count() # Recognize CPU cores and save the number
 # Load the configuration file
 configfile: "config/config.yaml" 
 
+
+
 # Check and remove file extension (.fastq.gz)
 def remove_file_extension(filename):
     if not filename.endswith('.fastq.gz'):
@@ -18,6 +20,8 @@ def get_full_sample_path(sample):
 samples_txt = os.path.join("results", config["project_name"], config["project_name"] + ".txt")
 with open(samples_txt, 'r') as f:
     samples = [remove_file_extension(line.strip()) for line in f] # The function (remove_file_extension()) checks and removes the file extension
+
+
 
 # rule all; create output files
 rule all:
@@ -65,261 +69,37 @@ rule all:
         # output; rule racon; {sample}.fasta;
         expand("results/{project_name}/racon/{sample}.fasta", project_name=config['project_name'], sample=samples)
 
+
+
+# all rules are stored in the rules folder!
+# workflow/rules
 # rule bioawk; create a read-length table
-rule bioawk:
-    input:
-        fastq=lambda wildcards: get_full_sample_path(wildcards.sample) + ".fastq.gz"
-    output:
-        csv="results/{project_name}/csvfile/{sample}.csv"
-    conda:
-        "envs/bioawk.yaml"
-    log:
-        "results/{project_name}/logfiles/bioawk/{sample}.log"
-    shell:
-        """
-        echo 'sample,length' > {output.csv} 2>> {log}
-        bioawk -c fastx '{{print "{wildcards.sample}," length($seq)}}' {input.fastq} >> {output.csv} 2>> {log}
-        """
-
+include: "rules/bioawk.smk"
 # rule rlplot; create a read-length plot
-rule rlplot:
-    input:
-        csv="results/{project_name}/csvfile/{sample}.csv"
-    output:
-        plot="results/{project_name}/rlplot/{sample}.pdf"
-    conda:
-        "envs/rplot.yaml"
-    log:
-        "results/{project_name}/logfiles/rlplot/{sample}.log"
-    shell:
-        """
-        Rscript workflow/scripts/plot_readlength.R {input.csv} {output.plot} {wildcards.sample} 2>> {log}
-        """
-
+include: "rules/rlplot.smk"
 # rule fastqc; analyze the raw data
-rule fastqc:
-    input:
-        fastq="results/{project_name}/temp/{sample}.fastq"
-    output:
-        html="results/{project_name}/fastqc/{sample}/{sample}_fastqc.html",
-        zip="results/{project_name}/fastqc/{sample}/{sample}_fastqc.zip"
-    conda:
-        "envs/fastqc.yaml"
-    log:
-        "results/{project_name}/logfiles/fastqc/{sample}.log"
-    params:
-        assembly_prefix=lambda wildcards: wildcards.sample,
-        fastqc_memory=config["fastqc_memory"]
-    threads: num_cores
-    shell:
-        """
-        fastqc {input.fastq} --outdir=results/{config[project_name]}/fastqc/{params.assembly_prefix} --memory {params.fastqc_memory} &>> {log}
-        touch {output.html} {output.zip} 2>> {log}
-        """
-
+include: "rules/fastqc.smk"
 # rule multiqc; compilation of the samples
-rule multiqc:
-    input:
-        expand("results/{project_name}/fastqc/{sample}/{sample}_fastqc.html", project_name=config['project_name'], sample=samples)
-    output:
-        html="results/{project_name}/multiqc/multiqc_report.html"
-    conda:
-        "envs/multiqc.yaml"
-    log:
-        "results/{project_name}/logfiles/multiqc/multiqc.log"
-    shell:
-        """
-        multiqc results/{config[project_name]}/fastqc/ -o results/{config[project_name]}/multiqc/ &>> {log}
-        """
-
+include: "rules/multiqc.smk"
 # rule porechop; remove the adapter sequences
-rule porechop:
-    input:
-        fastq="results/{project_name}/temp/{sample}.fastq"
-    output:
-        trimmed_fastq="results/{project_name}/porechop/{sample}.trimmed.fastq"
-    conda:
-        "envs/porechop.yaml"
-    log:
-        "results/{project_name}/logfiles/porechop/{sample}.log"
-    shell:
-        """
-        porechop -i {input.fastq} -o {output.trimmed_fastq} &>> {log}
-        """
-
+include: "rules/porechop.smk"
 # rule unzip; unzip the fastq.gz files
-rule unzip:
-    input:
-        gzipped=lambda wildcards: get_full_sample_path(wildcards.sample) + ".fastq.gz"
-    output:
-        unzipped=temp("results/{project_name}/temp/{sample}.fastq")
-    conda:
-        "envs/unzip.yaml"
-    log:
-        "results/{project_name}/logfiles/unzip/{sample}.log"
-    shell:
-        """
-        gunzip -k {input.gzipped} -c > {output.unzipped} 2>> {log}
-        """
-
+include: "rules/unzip.smk"
 # rule n50pre; create n50 statistics from the raw data
-rule n50pre:
-    input:
-        fastqgz="results/{project_name}/temp/{sample}.fastq"
-    output:
-        stats="results/{project_name}/n50pre/{sample}.txt"
-    conda:
-        "envs/n50.yaml"
-    log:
-        "results/{project_name}/logfiles/n50pre/{sample}.log"
-    shell:
-        """
-        assembly-stats {input.fastqgz} > {output.stats} 2>> {log}
-        """
-
+include: "rules/n50pre.smk"
 # rule canu; genome assembling
-rule canu:
-    input:
-        reads="results/{project_name}/porechop/{sample}.trimmed.fastq"
-    output:
-        assembly="results/{project_name}/assemblies/{sample}/{sample}.contigs.fasta"
-    conda:
-        "envs/canu.yaml"
-    log:
-        "results/{project_name}/logfiles/canu/{sample}.log"
-    params:
-        assembly_prefix=lambda wildcards: wildcards.sample,
-        canu_genome_size=config["canu_genome_size"],
-        canu_minInputCoverage=config["canu_minInputCoverage"],
-        canu_stopOnLowCoverage=config["canu_stopOnLowCoverage"],
-        canu_grid=config["canu_grid"]
-    threads: num_cores
-    shell: 
-        """
-        canu -p {params.assembly_prefix} \
-             -d results/{config[project_name]}/assemblies/{params.assembly_prefix}/ \
-             -nanopore-raw {input.reads} \
-             minInputCoverage={params.canu_minInputCoverage} \
-             stopOnLowCoverage={params.canu_stopOnLowCoverage} \
-             genomeSize={params.canu_genome_size} 2>> {log}
-        """
-
+include: "rules/canu.smk"
 # rule n50post; create an n50 statistic with the assembled genome
-rule n50post:
-    input:
-        fasta="results/{project_name}/racon/{sample}.fasta"
-    output:
-        stats="results/{project_name}/n50post/{sample}.txt"
-    conda:
-        "envs/n50.yaml"
-    log:
-        "results/{project_name}/logfiles/n50post/{sample}.log"
-    shell:
-        """
-        assembly-stats {input.fasta} > {output.stats} 2>> {log}
-        """
-
+include: "rules/n50post.smk"
 # rule cvplot_csv; create a csv file for coverage plot
-rule cvplotcsv:
-    input:
-        fasta="results/{project_name}/racon/{sample}.fasta"
-    output:
-        csv="results/{project_name}/cvplot/{sample}.csv"
-    conda:
-        "envs/cvplotcsv.yaml"
-    params:
-        strain="ONT_Dmel",
-        data_type="contig"
-    shell:
-        """
-        echo "line,length,type,coverage" > {output.csv}
-        LEN=$(bioawk -c fastx '{{sum+=length($seq)}}END{{print sum}}' {input.fasta})
-        cat {input.fasta} | bioawk -c fastx -v line="{params.strain}" '{{print line","length($seq)","length($seq)}}' | sort -k3rV -t "," | awk -F "," -v len="$LEN" -v type="{params.data_type}" 'OFS=","{{ print $1,$2,type,(sum+0)/len; sum+=$3 }}' >> {output.csv}
-        """
-
+include: "rules/cvplotcsv.smk"
 # rule cvplot; create a coverage plot
-rule cvplot:
-    input:
-        csv="results/{project_name}/cvplot/{sample}.csv"
-    output:
-        plot="results/{project_name}/cvplot/{sample}.pdf"
-    conda:
-        "envs/cvplot.yaml"
-    log:
-        "results/{project_name}/logfiles/cvplot/{sample}.log"
-    shell:
-        """
-        Rscript workflow/scripts/plot_coverage.R {input.csv} {output.plot} {wildcards.sample} 2>> {log}
-        """
-
+include: "rules/cvplot.smk"
 # rule busco; analysis
-rule busco:
-    input:
-        "results/{project_name}/racon/{sample}.fasta"
-    output:
-        short_txt="results/{project_name}/busco/{sample}_short_summary.txt"
-    log:
-        "results/{project_name}/logfiles/busco/{sample}.log"
-    params:
-        mode=config["busco_mode"],
-        lineage=config["busco_lineage"]
-    threads: num_cores
-    wrapper:
-        "v3.3.6/bio/busco"
-
+include: "rules/busco.smk"
 # rule bcplotcsv; create a csv file for BUSCO plot
-rule bcplotcsv:
-    input:
-        busco_sum="results/{project_name}/busco/{sample}_short_summary.txt"
-    output:
-        csvfile="results/{project_name}/csvbusco/{sample}_busco.csv"
-    conda:
-        "envs/bcplotcsv.yaml"
-    params:
-        prefix=lambda wildcards: wildcards.sample,
-        temp_dir="results/{project_name}/csvbusco/{sample}_temp/"
-    shell:
-        """
-        echo "Strain,Complete_single_copy,Complete_duplicated,Fragmented,Missing" > {output.csvfile}
-        mkdir -p {params.temp_dir}
-        cat {input.busco_sum} | grep "(S)" | awk -v strain="{params.prefix}" '{{print strain","$1}}' > {params.temp_dir}/complete_single.txt
-        cat {input.busco_sum} | grep "(D)" | awk '{{print $1}}' > {params.temp_dir}/complete_duplicated.txt
-        cat {input.busco_sum} | grep "(F)" | awk '{{print $1}}' > {params.temp_dir}/fragmented.txt
-        cat {input.busco_sum} | grep "(M)" | awk '{{print $1}}' > {params.temp_dir}/missing.txt
-        paste -d "," {params.temp_dir}/complete_single.txt {params.temp_dir}/complete_duplicated.txt {params.temp_dir}/fragmented.txt {params.temp_dir}/missing.txt >> {output.csvfile}
-        rm -r {params.temp_dir}
-        """
-
+include: "rules/bcplotcsv.smk"
 # rule buscoplot; create a BUSCO plot
-rule buscoplot:
-    input:
-        csv="results/{project_name}/csvbusco/{sample}_busco.csv"
-    output:
-        plot="results/{project_name}/bcplot/{sample}.pdf"
-    conda:
-        "envs/buscoplot.yaml"
-    log:
-        "results/{project_name}/logfiles/buscoplot/{sample}.log"
-    shell:
-        """
-        Rscript workflow/scripts/plot_busco.R {input.csv} {output.plot} {wildcards.sample} 2>> {log}
-        """
-
+include: "rules/buscoplot.smk"
 # rule racon; Racon polish a genome assembly using sequencing reads, improving its accuracy.
-rule racon:
-    input:
-        trimmed_reads="results/{project_name}/porechop/{sample}.trimmed.fastq",
-        assembly="results/{project_name}/assemblies/{sample}/{sample}.contigs.fasta"
-    output:
-        polished="results/{project_name}/racon/{sample}.fasta"
-    conda:
-        "envs/racon.yaml"
-    log:
-        "results/{project_name}/logfiles/racon/{sample}.log"
-    params:
-        output_samfile="results/{project_name}/racon/mapped_reads.sam"
-    shell:
-        """
-        minimap2 -ax map-ont {input.assembly} {input.trimmed_reads} > {params.output_samfile} 2>> {log}
-        racon {input.trimmed_reads} {params.output_samfile} {input.assembly} > {output.polished} 2>> {log}
-        """
+include: "rules/racon.smk"
