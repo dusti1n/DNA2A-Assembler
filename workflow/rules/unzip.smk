@@ -8,7 +8,8 @@ rule unzip:
         "../envs/unzip.yaml"
     log:
         "results/{project_name}/logfiles/unzip/{sample}.log"
+    threads: num_cores
     shell:
         """
-        gunzip -k {input.gzipped} -c > {output.unzipped} 2>> {log}
+        pigz -d -c {input.gzipped} > {output.unzipped} 2>> {log}
         """

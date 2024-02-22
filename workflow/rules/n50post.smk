@@ -1,11 +1,17 @@
- # rule n50post; create an n50 statistic with the assembled genome
+def get_n50_input(wildcards):
+    if config["illumina_data"]:
+        return "results/{project_name}/pilon/{sample}_pilon.fasta"
+    else:
+        return "results/{project_name}/racon/{sample}.fasta"
+
+# rule n50post; create an n50 statistic with the assembled genome
 rule n50post:
     input:
-        fasta="results/{project_name}/racon/{sample}.fasta"
+        fasta=get_n50_input
     output:
         stats="results/{project_name}/n50post/{sample}.txt"
     conda:
-        "../envs/n50.yaml"
+        "../envs/n50post.yaml"
     log:
         "results/{project_name}/logfiles/n50post/{sample}.log"
     shell:

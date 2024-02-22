@@ -4,8 +4,6 @@ rule bcplotcsv:
         busco_sum="results/{project_name}/busco/{sample}_short_summary.txt"
     output:
         csvfile="results/{project_name}/csvbusco/{sample}_busco.csv"
-    conda:
-        "../envs/bcplotcsv.yaml"
     params:
         prefix=lambda wildcards: wildcards.sample,
         temp_dir="results/{project_name}/csvbusco/{sample}_temp/"

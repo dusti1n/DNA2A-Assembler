@@ -16,5 +16,5 @@ rule fastqc:
     shell:
         """
         fastqc {input.fastq} --outdir=results/{config[project_name]}/fastqc/{params.assembly_prefix} --memory {params.fastqc_memory} &>> {log}
-        touch {output.html} {output.zip} 2>> {log}
+        touch {output.html} {output.zip}
         """

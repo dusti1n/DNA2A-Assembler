@@ -3,4 +3,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - pigz
+  - assembly-stats=1.0.1=h4ac6f70_7

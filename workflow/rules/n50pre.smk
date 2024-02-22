@@ -5,7 +5,7 @@ rule n50pre:
     output:
         stats="results/{project_name}/n50pre/{sample}.txt"
     conda:
-        "../envs/n50.yaml"
+        "../envs/n50pre.yaml"
     log:
         "results/{project_name}/logfiles/n50pre/{sample}.log"
     shell:

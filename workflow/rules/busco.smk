@@ -1,7 +1,13 @@
+def get_busco_input(wildcards):
+    if config["illumina_data"]:
+        return "results/{project_name}/pilon/{sample}_pilon.fasta"
+    else:
+        return "results/{project_name}/racon/{sample}.fasta"
+
 # rule busco; analysis
 rule busco:
     input:
-        "results/{project_name}/racon/{sample}.fasta"
+        get_busco_input
     output:
         short_txt="results/{project_name}/busco/{sample}_short_summary.txt"
     log:

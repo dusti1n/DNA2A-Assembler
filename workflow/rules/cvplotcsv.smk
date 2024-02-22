@@ -1,7 +1,13 @@
+def get_cvplotcsv_input(wildcards):
+    if config["illumina_data"]:
+        return "results/{project_name}/pilon/{sample}_pilon.fasta"
+    else:
+        return "results/{project_name}/racon/{sample}.fasta"
+
 # rule cvplot_csv; create a csv file for coverage plot
 rule cvplotcsv:
     input:
-        fasta="results/{project_name}/racon/{sample}.fasta"
+        fasta=get_cvplotcsv_input
     output:
         csv="results/{project_name}/cvplot/{sample}.csv"
     conda:

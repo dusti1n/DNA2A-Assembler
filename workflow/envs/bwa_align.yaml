@@ -3,4 +3,5 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - bioawk=1.0=he4a0461_9
+  - bwa
+  - samtools

@@ -16,7 +16,7 @@ def remove_file_extension(filename):
 def get_full_sample_path(sample):
     return os.path.join(config["sample_path"], sample)
 
-# Read the samples from the text file; Example: Sample.fastq.gz;
+# Read the samples from text file; Example: Sample.fastq.gz;
 samples_txt = os.path.join("results", config["project_name"], config["project_name"] + ".txt")
 with open(samples_txt, 'r') as f:
     samples = [remove_file_extension(line.strip()) for line in f] # The function (remove_file_extension()) checks and removes the file extension
@@ -67,39 +67,56 @@ rule all:
         expand("results/{project_name}/bcplot/{sample}.pdf", project_name=config['project_name'], sample=samples),
 
         # output; rule racon; {sample}.fasta;
-        expand("results/{project_name}/racon/{sample}.fasta", project_name=config['project_name'], sample=samples)
+        expand("results/{project_name}/racon/{sample}.fasta", project_name=config['project_name'], sample=samples),
+
+
+
+        # IF U ALSO USE ILLUMINA DATASET
+        # output; rule bwa_align; {sample}_bwa_aligned_reads.bam;
+        expand("results/{project_name}/bwa_align/{sample}_bwa_aligned_reads.bam", project_name=config['project_name'], sample=samples) if config['illumina_data'] else [],
+
+        # output; rule pilon; {sample}_pilon.fasta;
+        expand("results/{project_name}/pilon/{sample}_pilon.fasta", project_name=config['project_name'], sample=samples) if config['illumina_data'] else []
 
 
 
 # all rules are stored in the rules folder!
 # workflow/rules
-# rule bioawk; create a read-length table
+# rule bioawk; create a read-length table;
 include: "rules/bioawk.smk"
-# rule rlplot; create a read-length plot
+# rule rlplot; create a read-length plot;
 include: "rules/rlplot.smk"
-# rule fastqc; analyze the raw data
+# rule fastqc; analyze the raw data;
 include: "rules/fastqc.smk"
-# rule multiqc; compilation of the samples
+# rule multiqc; compilation of the samples;
 include: "rules/multiqc.smk"
-# rule porechop; remove the adapter sequences
+# rule porechop; remove the adapter sequences;
 include: "rules/porechop.smk"
-# rule unzip; unzip the fastq.gz files
+# rule unzip; unzip the fastq.gz files;
 include: "rules/unzip.smk"
-# rule n50pre; create n50 statistics from the raw data
+# rule n50pre; create n50 statistics from the raw data;
 include: "rules/n50pre.smk"
-# rule canu; genome assembling
+# rule canu; genome assembling;
 include: "rules/canu.smk"
-# rule n50post; create an n50 statistic with the assembled genome
+# rule n50post; create an n50 statistic with the assembled genome;
 include: "rules/n50post.smk"
-# rule cvplot_csv; create a csv file for coverage plot
+# rule cvplot_csv; create a csv file for coverage plot;
 include: "rules/cvplotcsv.smk"
-# rule cvplot; create a coverage plot
+# rule cvplot; create a coverage plot;
 include: "rules/cvplot.smk"
-# rule busco; analysis
+# rule busco; analysis;
 include: "rules/busco.smk"
-# rule bcplotcsv; create a csv file for BUSCO plot
+# rule bcplotcsv; create a csv file for BUSCO plot;
 include: "rules/bcplotcsv.smk"
-# rule buscoplot; create a BUSCO plot
+# rule buscoplot; create a BUSCO plot;
 include: "rules/buscoplot.smk"
-# rule racon; Racon polish a genome assembly using sequencing reads, improving its accuracy.
+# rule racon; Racon polish a genome assembly using sequencing reads, improving its accuracy.;
 include: "rules/racon.smk"
+
+
+# IF U ALSO USE ILLUMINA DATASET
+if config["illumina_data"]:
+    # rule bwa_align; create a bam file;
+    include: "rules/bwa_align.smk"
+    # rule pilon; cleaning fasta file;
+    include: "rules/pilon.smk"
