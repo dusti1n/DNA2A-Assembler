@@ -2,9 +2,7 @@
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥6.3.0-brightgreen.svg)](https://snakemake.github.io)
 
-
-A Snakemake workflow for analyzing raw DNA sequences. `DNA2A (DNA (A)ssembly and (A)nalyzer) is a comprehensive toolkit for the automated analysis of eukaryotic long-read sequencing data, particularly Oxford Nanopore Technologies (ONT) raw data, using Snakemake.`
-
+DNA2A (DNA (A)ssembly and (A)nalyzer) is a comprehensive toolkit for the automated analysis of eukaryotic long-read sequencing data with Snakemake. The bioinformatics tool is suitable for raw data from Oxford Nanopore Technologies (ONT) as well as for hybrid sequencing (ONT + Illumina).
 
 ## Usage
 
