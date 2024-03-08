@@ -10,5 +10,5 @@ rule buscoplot:
         "results/{project_name}/logfiles/buscoplot/{sample}.log"
     shell:
         """
-        Rscript workflow/scripts/plot_busco.R {input.csv} {output.plot} {wildcards.sample} 2>> {log}
+        Rscript workflow/scripts/buscoplot.R {input.csv} {output.plot} {wildcards.sample} 2>> {log}
         """

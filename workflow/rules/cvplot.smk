@@ -10,5 +10,5 @@ rule cvplot:
         "results/{project_name}/logfiles/cvplot/{sample}.log"
     shell:
         """
-        Rscript workflow/scripts/plot_coverage.R {input.csv} {output.plot} {wildcards.sample} 2>> {log}
+        Rscript workflow/scripts/coverageplot.R {input.csv} {output.plot} {wildcards.sample} 2>> {log}
         """

@@ -1,7 +1,17 @@
+def get_full_sample_path(sample, technology="ONT"):
+    sample_files = samples[sample].get(technology, [])
+    if sample_files:
+        # Gehe davon aus, dass die Dateien im entsprechenden Unterordner liegen
+        return [os.path.join(config["sample_path"], sample, "ont", file_name) for file_name in sample_files]
+    else:
+        raise ValueError(f"Keine Dateien für die Probe {sample} und Technologie {technology} gefunden.")
+
+
+
 # rule bioawk; create a read-length table
 rule bioawk:
     input:
-        fastq=lambda wildcards: get_full_sample_path(wildcards.sample) + ".fastq.gz"
+        fastq=lambda wildcards: get_full_sample_path(wildcards.sample)
     output:
         csv="results/{project_name}/csvfile/{sample}.csv"
     conda:

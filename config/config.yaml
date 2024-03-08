@@ -1,10 +1,12 @@
 # READ FIRST: Please set all settings marked with the following character! #{***}
 # Set the path to the folder where your files are located! #{***}
-sample_path: /home/dustin/snakeworkflow/datasets/ont/
+sample_path: /home/dustin/snake/data/
 # Set the project name for your samples; Example: drosophila_samples; #{***}
 # This will create a subfolder in 'results' with the project name you entered. 
 # The folder contains a text file with the names of your samples.
-project_name: Saccharomycetes_SMPLS
+project_name: saccharomycetes_smpls
+# Set save_dict: true to save a list with your samples!
+save_dict: true
 # Canu; Set genomeSize; genomeSize={params.canu_genome_size}; #{***}
 # Determine the size of your genome!
 canu_genome_size: "12m"
@@ -26,16 +28,10 @@ busco_lineage: "saccharomycetes_odb10"
 # FASTQC; Set memory; #{***}
 # Example(use of 8GB): fastqc_memory: "8192";
 fastqc_memory: "8192"
-
 # IF U ALSO USE ILLUMINA DATA!
 # Set illumina_data: true; Data included!
 # Set illumina_data: false; Data are not included!
-illumina_data: false
-# bwa_align; Set the path for Illumina Dataset;
-# reads_pair_1; forward;
-reads_pair_1: "/home/dustin/snakeworkflow/datasets/illumina/Z53-S19-3_1.fastq"
-# reads_pair_2; reverse;
-reads_pair_2: "/home/dustin/snakeworkflow/datasets/illumina/Z53-S19-3_2.fastq"
+illumina_data: true
 # Pilon; Set Memory for JAVA heap Space; 32G = 32 Gigabyte; #{***}
 # Example(use of 8GB): pilon_memory: "8G";
 pilon_memory: "32G"

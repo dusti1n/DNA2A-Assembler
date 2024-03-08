@@ -10,5 +10,5 @@ rule rlplot:
         "results/{project_name}/logfiles/rlplot/{sample}.log"
     shell:
         """
-        Rscript workflow/scripts/plot_readlength.R {input.csv} {output.plot} {wildcards.sample} 2>> {log}
+        Rscript workflow/scripts/readlengthplot.R {input.csv} {output.plot} {wildcards.sample} 2>> {log}
         """
