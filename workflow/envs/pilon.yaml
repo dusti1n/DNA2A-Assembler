@@ -1,3 +1,4 @@
+# All packages required for the rule: pilon
 channels:
   - conda-forge
   - bioconda

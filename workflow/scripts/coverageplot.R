@@ -1,4 +1,5 @@
 #!/usr/bin/env Rscript
+# Load the required packages
 library(ggplot2)
 
 args <- commandArgs(trailingOnly = TRUE)

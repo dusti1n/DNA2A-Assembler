@@ -1,4 +1,9 @@
-# rule canu; genome assembling
+# rule canu;
+# The canu rule performs genome assembly with Nanopore data to generate contig.fasta files.
+
+# Input files: ../{sample}.trimmed.fastq
+# Output files: ../{sample}.contigs.fasta
+
 rule canu:
     input:
         reads="results/{project_name}/porechop/{sample}.trimmed.fastq"

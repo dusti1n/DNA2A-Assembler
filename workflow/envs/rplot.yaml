@@ -1,3 +1,4 @@
+# All packages required for the rule: rplot
 channels:
   - conda-forge
   - bioconda

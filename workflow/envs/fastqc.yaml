@@ -1,3 +1,4 @@
+# All packages required for the rule: fastqc
 channels:
   - conda-forge
   - bioconda

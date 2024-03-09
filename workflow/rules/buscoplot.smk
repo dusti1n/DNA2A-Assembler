@@ -1,4 +1,10 @@
-# rule buscoplot; create a BUSCO plot
+# rule buscoplot;
+# The buscoplot rule creates a visualized plot 
+# in PDF format for each sample from a CSV file with BUSCO results using an R script.
+
+# Input files: ../{sample}_busco.csv
+# Output files: ../{sample}.pdf
+
 rule buscoplot:
     input:
         csv="results/{project_name}/csvbusco/{sample}_busco.csv"

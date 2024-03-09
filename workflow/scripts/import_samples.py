@@ -22,10 +22,8 @@ def sample_list(config_path, main_dir, file_extensions):
 
     # Save information for each sample
     sample_infos = []
-
     # List to display the successfully loaded samples
     loaded_samples = []
-
     # Track if any error occurred
     error_occurred = False
 
@@ -82,9 +80,10 @@ def sample_list(config_path, main_dir, file_extensions):
         print("\nSamples were loaded successfully!")
         print(f"You set illumina_data to: {illumina_data}\n")
 
+
 if __name__ == "__main__":
     main_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    config_path = os.path.join(main_dir, "../config/config.yaml") # Set config.yaml path
+    config_path = os.path.join(main_dir, "../config/config.yaml")
     file_extensions = [".fastq.gz", ".fastq"]
 
     sample_list(config_path, main_dir, file_extensions)

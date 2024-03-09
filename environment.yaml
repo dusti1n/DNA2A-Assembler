@@ -1,3 +1,4 @@
+# All required packages for Conda env
 channels:
   - conda-forge
   - bioconda

@@ -1,3 +1,4 @@
+# All packages required for the rule: buscoplot
 channels:
   - conda-forge
   - bioconda

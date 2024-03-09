@@ -1,3 +1,4 @@
+# All packages required for the rule: porechop
 channels:
   - conda-forge
   - bioconda

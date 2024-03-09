@@ -1,10 +1,20 @@
+# rule cvplotcsv;
+# The cvplotcsv rule generates a CSV file for 
+# coverage plots by extracting length information from Fasta files 
+# and recording this data together with predefined parameters 
+# such as stem and data type for each sequence.
+
+# Input files: fasta=get_cvplotcsv_input; .fasta files!
+# Output files: ../{sample}.csv
+
+# The get_cvplotcsv_input function selects the input fasta file for creating the coverage plot, based on whether Illumina data is available, from either piloted or racon-polished sequences.
 def get_cvplotcsv_input(wildcards):
     if config["illumina_data"]:
         return "results/{project_name}/pilon/{sample}_pilon.fasta"
     else:
         return "results/{project_name}/racon/{sample}.fasta"
 
-# rule cvplot_csv; create a csv file for coverage plot
+
 rule cvplotcsv:
     input:
         fasta=get_cvplotcsv_input

@@ -1,3 +1,4 @@
+# All packages required for the rule: racon
 channels:
   - conda-forge
   - bioconda

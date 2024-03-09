@@ -1,4 +1,12 @@
-# rule fastqc; analyze the raw data
+# rule fastqc;
+# The fastqc rule performs a quality check of .fastq files and creates HTML and ZIP reports with FastQC.
+
+# Input files: ../{sample}.fastq
+
+# Output files:
+# - html="results/{project_name}/fastqc/{sample}/{sample}_fastqc.html";
+# - zip="results/{project_name}/fastqc/{sample}/{sample}_fastqc.zip";
+
 rule fastqc:
     input:
         fastq="results/{project_name}/temp/{sample}.fastq"

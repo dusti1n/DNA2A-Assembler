@@ -1,4 +1,11 @@
-# rule bcplotcsv; create a csv file for BUSCO plot
+# rule bcplotcsv;
+# The rule bcplotcsv analyzes BUSCO summary files and creates a CSV file 
+# that lists counts of complete, duplicated, fragmented 
+# and missing genes for each sample.
+
+# Input files: ../{sample}_short_summary.txt
+# Output files: ../{sample}_busco.csv
+
 rule bcplotcsv:
     input:
         busco_sum="results/{project_name}/busco/{sample}_short_summary.txt"

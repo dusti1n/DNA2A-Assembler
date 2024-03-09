@@ -1,4 +1,10 @@
-# rule n50pre; create n50 statistics from the raw data
+# rule n50pre;
+# The n50pre rule calculates statistical values such as N50 
+# for unprocessed (raw) FastQ files and saves the results in a text file.
+
+# Input files: ../{sample}.fastq
+# Output files: ../{sample}.txt
+
 rule n50pre:
     input:
         fastqgz="results/{project_name}/temp/{sample}.fastq"

@@ -1,4 +1,9 @@
-# rule rlplot; create a read-length plot
+# rule rlplot;
+# The rlplot rule creates a read-length plot as a PDF file for each sample based on a CSV file, using an R script.
+
+# Input files: ../{sample}.csv
+# Output files: ../{sample}.pdf
+
 rule rlplot:
     input:
         csv="results/{project_name}/csvfile/{sample}.csv"

@@ -1,14 +1,11 @@
-# FIXED ERRORS:
+# FIXED ERRORS IN RSCRIPT; LINK TO PAPER: (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9254108/):
 # 1-Some Libarys were missing; Add library(plyr) before library(dplyr); Add library(scales);
 # 2-Change variable name: 20 kb.length.plot => length_plot_20kb
 # 3-Use "linewidth" instead of "size" => Line:30,39: size=0.2 => linewidth=0.2;
 # 4-Add important libarys in environment.yml for conda; r-base; r-ggplot2; r-plyr; r-dplyr; r-cowplot; r-scales;
-#RSCRIPT CHANGES:
-# 1-Change setpw("") to getwd(); Use for active folder without snakemake; Specify your working directory using setwd;
-# setwd("/home/projectsnakemake/testlab_1")
 
 #!/usr/bin/env Rscript
-# Important Libarys
+# Load the required packages
 library(ggplot2)
 library(plyr)
 library(dplyr)
@@ -24,7 +21,6 @@ wildcard_sample <- args[3]  # Value of the wildcard name
 read_length_df <- read.csv(input_csv)
 
 # Organize the imported read-length table
-# You can replace the level arguments for your sample, species, or strains
 read_length_df$sample <- as.factor(read_length_df$sample)
 read_length_df$sample <- factor(read_length_df$sample,level = c(wildcard_sample))
 

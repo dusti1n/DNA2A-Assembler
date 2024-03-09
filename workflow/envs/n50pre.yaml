@@ -1,3 +1,4 @@
+# All packages required for the rule: n50pre
 channels:
   - conda-forge
   - bioconda

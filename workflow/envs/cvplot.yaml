@@ -1,3 +1,4 @@
+# All packages required for the rule: cvplot
 channels:
   - conda-forge
   - bioconda

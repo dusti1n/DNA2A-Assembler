@@ -1,3 +1,4 @@
+# All packages required for the rule: unzip
 channels:
   - conda-forge
   - bioconda

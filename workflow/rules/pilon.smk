@@ -1,3 +1,14 @@
+# rule pilon;
+# The pilon rule performs genome polishing using pilon by 
+# using the original racon polished contigs and aligned reads 
+# and storing a polished version of the contigs.
+
+# Input files: 
+# - ../{sample}.fasta
+# - ../{sample}_bwa_aligned_reads.bam
+
+# Output files: ../{sample}_pilon.fasta
+
 rule pilon:
     input:
         contigs="results/{project_name}/racon/{sample}.fasta",

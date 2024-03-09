@@ -6,7 +6,7 @@ library(conflicted)
 conflict_prefer("filter", "dplyr")
 conflict_prefer("lag", "dplyr")
 
-# Load other necessary packages
+# Load the required packages
 library(ggplot2)
 library(reshape2)
 library(tidyverse)

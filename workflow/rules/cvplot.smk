@@ -1,4 +1,9 @@
-# rule cvplot; create a coverage plot
+# rule cvplot;
+# The cvplot rule creates a coverage plot as a PDF file for each sample, based on a CSV file, using an R script.
+
+# Input files: ../{sample}.csv
+# Output files: ../{sample}.pdf
+
 rule cvplot:
     input:
         csv="results/{project_name}/cvplot/{sample}.csv"

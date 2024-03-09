@@ -1,11 +1,22 @@
+# rule bwa_align;
+# The rule bwa_align performs a sequence alignment operation 
+# using BWA on paired-end Illumina reads against Racon-polished contigs 
+# to generate a BAM file with aligned reads.
+
+# Input files:
+# - ../{sample}.fasta;
+# - reads_pair_1=lambda wildcards: get_full_sample_path_illumina(wildcards.sample)[0]; .fastq files!
+# - reads_pair_2=lambda wildcards: get_full_sample_path_illumina(wildcards.sample)[1]; .fastq files!
+
+# Output files: ../{sample}_bwa_aligned_reads.bam
+
+# The function searches a dictionary for files for a given sample and technology and generates paths to these files;
 def get_full_sample_path_illumina(sample, technology="Illumina"):
     sample_files_illumina = samples[sample].get(technology, [])
     if sample_files_illumina:
-        # Gehe davon aus, dass die Dateien im entsprechenden Unterordner liegen
         return [os.path.join(config["sample_path"], sample, "illumina", file_name) for file_name in sample_files_illumina]
     else:
         raise ValueError(f"Keine Dateien für die Probe {sample} und Technologie {technology} gefunden.")
-
 
 
 rule bwa_align:

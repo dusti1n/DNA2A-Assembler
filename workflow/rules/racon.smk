@@ -1,4 +1,14 @@
-# rule racon; Racon polish a genome assembly using sequencing reads, improving its accuracy.
+# rule racon;
+# The racon rule uses the Racon tool to polish the assembly of nanopore sequences 
+# through iterations of superposition and consensus building, taking the trimmed reads 
+# and the original assembly as input and generating a polished fasta file.
+
+# Input files: 
+# - ../{sample}.trimmed.fastq
+# - ../{sample}.contigs.fasta
+
+# Output files: ../{sample}.fasta
+
 rule racon:
     input:
         trimmed_reads="results/{project_name}/porechop/{sample}.trimmed.fastq",

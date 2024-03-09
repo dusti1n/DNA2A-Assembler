@@ -1,23 +1,21 @@
-import os # System recognition
+import os
 import json
-num_cores = os.cpu_count() # Recognize CPU cores and save the number
+num_cores = os.cpu_count() # Recognize CPU cores
 
 # Load the configuration file
 configfile: "config/config.yaml" 
 
-
-
 include_illumina = config["illumina_data"]
 
-
+# The read_samples_from_txt function reads sample information from a text file, categorizes it by technology and saves it in a Python dictionary.
 def read_samples_from_txt(samples_txt, include_illumina):
     samples = {}
     with open(samples_txt, 'r') as f:
         for line in f:
-            # Entfernen von führenden/abschließenden Leerzeichen und einem abschließenden Semikolon
+            # Remove leading/trailing spaces and a trailing semicolon
             line_cleaned = line.strip().rstrip(';').strip()
             parts = line_cleaned.split("; ")
-            sample_name = parts[0]  # Sample-Name sollte jetzt frei von unerwünschten Zeichen sein
+            sample_name = parts[0]  # sample_name should now be free of unwanted characters
 
             samples[sample_name] = {}
             for part in parts[1:]:
@@ -26,7 +24,7 @@ def read_samples_from_txt(samples_txt, include_illumina):
                 elif part.startswith("Illumina:") and include_illumina:
                     samples[sample_name]['Illumina'] = part.replace("Illumina: ", "").split(", ")
 
-    # Überprüfen, ob das Dictionary gespeichert werden soll
+    # Check whether the dictionary should be saved
     if config.get('save_dict', False):
         save_path = os.path.join("results", config["project_name"], "samples.json")
         with open(save_path, 'w') as f:
@@ -36,7 +34,6 @@ def read_samples_from_txt(samples_txt, include_illumina):
 
 samples_txt = os.path.join("results", config["project_name"], config["project_name"] + "_db.txt")
 samples = read_samples_from_txt(samples_txt, include_illumina)
-
 
 
 # rule all; create output files
@@ -86,7 +83,7 @@ rule all:
         expand("results/{project_name}/racon/{sample}.fasta", project_name=config['project_name'], sample=samples),
 
 
-        # IF U ALSO USE ILLUMINA DATASET
+        # THIS PART IS IMPORTANT IF YOU ALSO WANT TO USE ILLUMINA DATA!
         # output; rule bwa_align; {sample}_bwa_aligned_reads.bam;
         expand("results/{project_name}/bwa_align/{sample}_bwa_aligned_reads.bam", project_name=config['project_name'], sample=samples) if config['illumina_data'] else [],
 
@@ -94,9 +91,6 @@ rule all:
         expand("results/{project_name}/pilon/{sample}_pilon.fasta", project_name=config['project_name'], sample=samples) if config['illumina_data'] else []
 
 
-
-# all rules are stored in the rules folder!
-# workflow/rules
 # rule bioawk; create a read-length table;
 include: "rules/bioawk.smk"
 # rule rlplot; create a read-length plot;
@@ -129,7 +123,7 @@ include: "rules/buscoplot.smk"
 include: "rules/racon.smk"
 
 
-# IF U ALSO USE ILLUMINA DATASET
+# THIS PART IS IMPORTANT IF YOU ALSO WANT TO USE ILLUMINA DATA!
 if config["illumina_data"]:
     # rule bwa_align; create a bam file;
     include: "rules/bwa_align.smk"
