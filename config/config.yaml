@@ -2,7 +2,7 @@
 # Set the path to the folder where your sample folders are located! #{***}
 # The sample folders must have the following structure! 
 # Example: smpl_01/ont/ontfile.fastq.gz; smpl_01/illumina/illuminafile_1.fastq; smpl_01/illumina/illuminafile_2.fastq;
-sample_path: /home/dustin/snake/data/
+sample_path: /path/to/datasets/
 # Set the project name for your samples; Example: drosophila_samples; #{***}
 # This will create a subfolder in 'results' with the project name you entered.
 project_name: saccharomycetes_smpls
