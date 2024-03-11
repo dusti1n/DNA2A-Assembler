@@ -29,5 +29,5 @@ rule pilon:
         pilon --genome {input.contigs} \
               --bam {input.bam} \
               --outdir results/{config[project_name]}/pilon/ \
-              --output {params.assembly_prefix}_pilon 2>> {log}
+              --output {params.assembly_prefix}_pilon &>> {log}
         """
