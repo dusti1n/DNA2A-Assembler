@@ -20,7 +20,7 @@ rule racon:
     log:
         "results/{project_name}/logfiles/racon/{sample}.log"
     params:
-        output_samfile="results/{project_name}/racon/mapped_reads.sam"
+        output_samfile="results/{project_name}/racon/{sample}_mapped_reads.sam"
     shell:
         """
         minimap2 -ax map-ont {input.assembly} {input.trimmed_reads} > {params.output_samfile} 2>> {log}
