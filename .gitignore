@@ -4,3 +4,4 @@ resources/**
 logs/**
 .snakemake
 .snakemake/**
+install_workflow.tex
