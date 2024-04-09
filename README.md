@@ -6,7 +6,7 @@ DNA2A (DNA (A)ssembly and (A)nalyzer) is a comprehensive toolkit for the automat
 
 ## Usage
 
-The usage of this workflow is described in: [install_workflow.pdf](install_workflow.pdf)
+The usage of this workflow is described in: [install_workflow.pdf](documentation/install_workflow.pdf)
 
 [Snakemake Workflow Catalog](https://snakemake.github.io/snakemake-workflow-catalog/?usage=<owner>%2F<repo>).
 
