@@ -12,16 +12,16 @@ The usage of this workflow is described in:
 If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) <repo>sitory and its DOI (see above).
 
 ## Contents
-[Dependencies](#dependencies)
-[DAG-Plot](#example-dag-plot)
-[Install Miniconda and Mamba](#install-miniconda-and-mamba)
-[Create environment and install workflow](#create-environment-and-install-workflow)
-[Folder and data structure](#folder-and-data-structure)
-[Load samples and start the workflow](#load-samples-and-start-the-workflow)
-[Illumina Data](#illumina-data)
-[Load Samples with Python](#load-samples-with-python)
-[Optional Commands](#optional-commands)
-[References](#references)
+1. [Dependencies](#dependencies)
+2. [DAG-Plot](#example-dag-plot)
+3. [Install Miniconda and Mamba](#install-miniconda-and-mamba)
+4. [Create environment and install workflow](#create-environment-and-install-workflow)
+5. [Folder and data structure](#folder-and-data-structure)
+6. [Load samples and start the workflow](#load-samples-and-start-the-workflow)
+7. [Illumina Data](#illumina-data)
+8. [Load Samples with Python](#load-samples-with-python)
+9. [Optional Commands](#optional-commands)
+10. [References](#references)
 
 
 
