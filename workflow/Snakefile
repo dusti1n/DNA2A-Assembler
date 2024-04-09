@@ -5,6 +5,7 @@ num_cores = os.cpu_count() # Recognize CPU cores
 # Load the configuration file
 configfile: "config/config.yaml" 
 
+# Variable saves a boolean value
 include_illumina = config["illumina_data"]
 
 # The read_samples_from_txt function reads sample information from a text file, categorizes it by technology and saves it in a Python dictionary.

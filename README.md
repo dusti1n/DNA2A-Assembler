@@ -11,6 +11,22 @@ The usage of this workflow is described in:
 
 If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) <repo>sitory and its DOI (see above).
 
+## Contents
+[Dependencies](#dependencies)
+[DAG-Plot](#example-dag-plot)
+[Install Miniconda and Mamba](#install-miniconda-and-mamba)
+[Create environment and install workflow](#create-environment-and-install-workflow)
+[Folder and data structure](#folder-and-data-structure)
+[Load samples and start the workflow](#load-samples-and-start-the-workflow)
+[Illumina Data](#illumina-data)
+[Load Samples with Python](#load-samples-with-python)
+[Optional Commands](#optional-commands)
+[References](#references)
+
+
+
+
+
 ## Dependencies
 [Snakemake](https://snakemake.readthedocs.io/en/stable/), [Conda](https://conda.io/en/latest/index.html), [Python](https://www.python.org/), [R](https://www.r-project.org/)
 
@@ -154,9 +170,19 @@ snakemake --cores all --use-conda
 ```
 ---
 
-**Optional Commands for Snakemake**
-Create a flowchart (DAG-Plot)
+## Optional Commands
+
+**Create a flowchart (DAG-Plot)**
 ```shell
 snakemake --dag | dot -Tpng > dag.png
 ```
 ---
+
+## References
+
+**STAR Protocols**
+- [Jun Kim and Chuna Kim - A beginner’s guide to assembling a draft genome and analyzing structural variants with long-read sequencing technologies](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9254108/)
+
+**Snakemake**
+- [Felix Mölder, Kim Philipp Jablonski, Brice Letcher, Michael B. Hall, Christopher H. Tomkins-Tinch, Vanessa Sochat, Jan Forster, Soohyun Lee, Sven O. Twardziok, Alexander Kanitz, Andreas Wilm, Manuel Holtgrewe, Sven Rahmann, Sven Nahnsen, Johannes Köster - Sustainable data analysis with Snakemake](https://doi.org/10.12688/f1000research.29032.1)
+- [Snakemake.github.io](https://snakemake.github.io/)
