@@ -18,7 +18,12 @@ Snakemake, Conda, Python, R
 **The workflow should be started with Linux. How exactly the workflow should be installed is described in the instructions.**
 
 ---
+## Example; DAG-Plot
+*Black rectangle indicates the rules used when Illumina data is included.*
 
+<img src="documentation/images/DAG-Plot.png" alt="logo" width="750"/>
+
+---
 ## Install Miniconda and Mamba
 *Workflow was tested on a Linux [Ubuntu] environment!*
 
