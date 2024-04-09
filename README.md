@@ -1,21 +1,20 @@
 # Snakemake workflow: `DNA2A-seq-analyzer`
 
-[![Snakemake](https://img.shields.io/badge/snakemake-≥6.3.0-brightgreen.svg)](https://snakemake.github.io)
-
-DNA2A (DNA (A)ssembly and (A)nalyzer) is a comprehensive toolkit for the automated analysis of eukaryotic long-read sequencing data with Snakemake. The bioinformatics tool is suitable for raw data from Oxford Nanopore Technologies (ONT) as well as for hybrid sequencing (ONT + Illumina).
+DNA2A (DNA (A)ssembly and (A)nalyzer) is a comprehensive toolkit for the automated analysis of eukaryotic long-read sequencing data with [Snakemake](https://snakemake.readthedocs.io/en/stable/). The bioinformatics tool is suitable for raw data from Oxford Nanopore Technologies (ONT) as well as for hybrid sequencing (ONT + Illumina).
 
 ## Usage
 
-The usage of this workflow is described in: [install_workflow.pdf](documentation/install_workflow.pdf)
+The usage of this workflow is described in: 
+[Install Workflow](documentation/install_workflow.pdf)
 
-[Snakemake Workflow Catalog](https://snakemake.github.io/snakemake-workflow-catalog/?usage=<owner>%2F<repo>).
+[Snakemake Workflow Catalog](https://snakemake.github.io/snakemake-workflow-catalog/?usage=<owner>%2F<repo>)
 
 If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) <repo>sitory and its DOI (see above).
 
 ## Dependencies
-Snakemake, Conda, Python, R
+[Snakemake](https://snakemake.readthedocs.io/en/stable/), [Conda](https://conda.io/en/latest/index.html), [Python](https://www.python.org/), [R](https://www.r-project.org/)
 
-**The workflow should be started with Linux. How exactly the workflow should be installed is described in the instructions.**
+**The workflow should be started with [Linux](https://ubuntu.com/). How exactly the workflow should be installed is described in the instructions.**
 
 ---
 ## Example; DAG-Plot
