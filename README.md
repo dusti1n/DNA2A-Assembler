@@ -115,7 +115,7 @@ CONFIG; set fastqc_memory: "8192"
 ```
 ---
 
-#### This part is important if you also want to use illumina data!
+### This part is important if you also want to use illumina data!
 ; Set illumina_data: true; If you want to use Illumina data!
 ; Set illumina_data: false; If you don’t want to use Illumina data!
 ```
@@ -129,7 +129,7 @@ CONFIG; set pilon_memory: "32G"
 ```
 ---
 
-#### First load all your samples with the Python script, then you can start the workflow! The Python script creates an automatic database for all your samples.
+### First load all your samples with the Python script, then you can start the workflow! The Python script creates an automatic database for all your samples.
 
 ```shell
 python workflow/scripts/import_samples.py
