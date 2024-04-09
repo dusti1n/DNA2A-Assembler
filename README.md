@@ -77,13 +77,13 @@ mamba activate snakenv
 **Open and set configfile (config.yaml) parameters. Set the path to the folder where your sample folders are located! The sample folders must have the following structure!**
 
 Example:
-; smpl_01/ont/ontfile.fastq.gz; smpl_01/illumina/illuminafile_1.fastq
-; smpl_01/illumina/illuminafile_2.fastq
++ smpl_01/ont/ontfile.fastq.gz; smpl_01/illumina/illuminafile_1.fastq
++ smpl_01/illumina/illuminafile_2.fastq
 
 **The exact folder structure is shown in the image (folder_structure.jpg). It is important that the path to the folder (example_data) is set.**
 
-
-File: config.yaml
+<space></space>
+*File: config.yaml*
 **All sample folders are then located in this folder**
 ```
 CONFIG; set sample_path: /path/to/example_data/
@@ -115,9 +115,10 @@ CONFIG; set fastqc_memory: "8192"
 ```
 ---
 
-### This part is important if you also want to use illumina data!
-; Set illumina_data: true; If you want to use Illumina data!
-; Set illumina_data: false; If you don’t want to use Illumina data!
+## Illumina Data
+#### This part is important if you also want to use illumina data!
++ Set illumina_data: true; If you want to use Illumina data!
++ Set illumina_data: false; If you don’t want to use Illumina data!
 ```
 CONFIG; set illumina_data: true
 ```
@@ -129,7 +130,8 @@ CONFIG; set pilon_memory: "32G"
 ```
 ---
 
-### First load all your samples with the Python script, then you can start the workflow! The Python script creates an automatic database for all your samples.
+## Load Samples with Python
+#### First load all your samples with the Python script, then you can start the workflow! The Python script creates an automatic database for all your samples.
 
 ```shell
 python workflow/scripts/import_samples.py
