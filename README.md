@@ -20,10 +20,10 @@ Snakemake, Conda, Python, R
 ---
 
 ## Install Miniconda and Mamba
-Workflow was tested on a Linux [Ubuntu] environment!
+*Workflow was tested on a Linux [Ubuntu] environment!*
 
 **First you have to install Miniconda3!**
-Tested with: Conda 23.11.0
+*Tested with: Conda 23.11.0*
 
 ```shell
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -70,6 +70,11 @@ If you have Mamba you can also use the following command.
 mamba env create -n snakenv -f environment.yaml
 mamba activate snakenv
 ```
+---
+## Folder and data structure
+<img src="documentation/images/folder_structure.jpg" alt="logo" width="750"/>
+</p>
+
 ---
 
 ## Load samples and start the workflow
@@ -123,8 +128,8 @@ CONFIG; set fastqc_memory: "8192"
 CONFIG; set illumina_data: true
 ```
 
-**Pilon; Set Memory for JAVA heap Space; 32G = 32 Gigabyte; 
-8GB should be used as a minimum! Example(use of 8GB): pilon_memory: "8G";**
+**Pilon; Set Memory for JAVA heap Space; 32G = 32 Gigabyte;** 
+*8GB should be used as a minimum!*
 ```
 CONFIG; set pilon_memory: "32G"
 ```
