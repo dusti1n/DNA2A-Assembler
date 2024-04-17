@@ -23,10 +23,6 @@ If you use this workflow in a paper, don't forget to give credits to the authors
 9. [Optional Commands](#optional-commands)
 10. [References](#references)
 
-
-
-
-
 ## Dependencies
 [Snakemake](https://snakemake.readthedocs.io/en/stable/), [Conda](https://conda.io/en/latest/index.html), [Python](https://www.python.org/), [R](https://www.r-project.org/)
 
@@ -47,7 +43,13 @@ If you use this workflow in a paper, don't forget to give credits to the authors
 
 ```shell
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+```
+
+```shell
 chmod +x Miniconda3-latest-Linux-x86_64.sh
+```
+
+```shell
 ./Miniconda3-latest-Linux-x86_64.sh
 ```
 
@@ -64,6 +66,9 @@ conda install -c conda-forge mamba
 
 ```shell
 mkdir -p path/to/project-workdir
+```
+
+```shell
 cd path/to/project-workdir
 ```
 
@@ -82,12 +87,18 @@ To install the environment with all packages, navigate to the project folder. It
 **Create an env and install all required packages.**
 ```shell
 conda env create -n snakenv -f environment.yaml
+```
+
+```shell
 conda activate snakenv
 ```
 
 If you have Mamba you can also use the following command.
 ```shell
 mamba env create -n snakenv -f environment.yaml
+```
+
+```shell
 mamba activate snakenv
 ```
 ---
