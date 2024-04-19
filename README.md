@@ -20,8 +20,9 @@ If you use this workflow in a paper, don't forget to give credits to the authors
 6. [Load samples and start the workflow](#load-samples-and-start-the-workflow)
 7. [Illumina Data](#illumina-data)
 8. [Load Samples with Python](#load-samples-with-python)
-9. [Optional Commands](#optional-commands)
-10. [References](#references)
+9. [Run with Docker](#run-with-docker)
+10. [Optional Commands](#optional-commands)
+11. [References](#references)
 
 ## Dependencies
 [Snakemake](https://snakemake.readthedocs.io/en/stable/), [Conda](https://conda.io/en/latest/index.html), [Python](https://www.python.org/), [R](https://www.r-project.org/)
@@ -179,6 +180,51 @@ Workflow creates a results folder with all analyzed samples.
 ```shell
 snakemake --cores all --use-conda
 ```
+---
+
+## Run with Docker
+
+#### Preparation
+1. Create a folder **<your_main_folder>**
+2. In your folder **<your_main_folder>** you have to create two more folders 
+**<your_main_folder/config>** and **<your_main_folder/results>**
+3. Go to the "config" folder and download config.yaml **<your_main_folder/config/config.yaml>**
+```shell
+wget https://raw.githubusercontent.com/dusti1n/DNA2A-seq-analyzer/master/config/config.yaml
+```
+4. Move **<your_sample_folder>** to **<your_main_folder>**
+5. Configure the **config.yaml**
+**IMPORTANT: If you use docker, set sample_path: /app/<your_sample_folder>**
+
+#### Pull and start Docker image
+1. Go to your folder **<your_main_folder>**
+
+2. Download the docker image **dna2a-seq-analyzer**
+```shell
+docker pull dusti1n/dna2a-seq-analyzer
+```
+
+3. Start the image with the following command
+```shell
+docker run -it —name dna2a-seq-analyzer -v </host/your_main_folder/results>:/app/results -v </host/your_main_folder/your_sample_folder/>:/app/your_sample_folder -v </host/your_main_folder/config/>:/app/config dusti1n/dna2a-seq-analyzer:latest
+```
+
+; --name; gives the container a user-defined name
+; --v; used to bind directories or files from the system to the container.
+; --it; keeps the standard input (STDIN) of the container open
+
+**It is important that you have entered the full path correctly.
+"host" describes your local system.**
+
+#### Start Workflow
+1. Activate Conda environment
+```shell
+conda activate snakenv
+```
+
+2. Load your samples and start the workflow; [Load Samples with Python](#load-samples-with-python); If you use Illumina data; [Illumina Data](#illumina-data);
+
+
 ---
 
 ## Optional Commands
