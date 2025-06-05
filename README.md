@@ -1,6 +1,6 @@
 # `genseqn`: Long-Read Assembly Pipeline
 
-**genseqn** (genome + sequencing) is a comprehensive and modular Snakemake-based pipeline for the automated analysis of long-read sequencing data. It supports raw data from Oxford Nanopore Technologies (ONT) and also enables hybrid assembly workflows combining ONT and Illumina reads. This workflow is based on the protocol by Jun Kim and Chuna Kim (2022), “A beginner’s guide to assembling a draft genome and analyzing structural variants with long-read sequencing technologies”. 
+**genseqn** (from genome and sequence) is a comprehensive and modular Snakemake-based pipeline for the automated analysis of long-read sequencing data. It supports raw data from Oxford Nanopore Technologies (ONT) and also enables hybrid assembly workflows combining ONT and Illumina reads. This workflow is based on the protocol by Jun Kim and Chuna Kim (2022), “A beginner’s guide to assembling a draft genome and analyzing structural variants with long-read sequencing technologies”. 
 
 ## Usage of genseqn
 > Please cite the repository URL and DOI if used in a publication.
