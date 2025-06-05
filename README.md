@@ -1,245 +1,241 @@
-# Snakemake workflow: `DNA2A-Assembler`
+# `genseqn`: Long-Read Assembly Pipeline
 
-DNA2A (DNA (A)ssembly and (A)nalyzer) is a comprehensive toolkit for the automated analysis of eukaryotic long-read sequencing data with [Snakemake](https://snakemake.readthedocs.io/en/stable/). The bioinformatics tool is suitable for raw data from Oxford Nanopore Technologies (ONT) as well as for hybrid sequencing (ONT + Illumina).
+**genseqn** (genome + sequencing) is a comprehensive and modular Snakemake-based pipeline for the automated analysis of long-read sequencing data. It supports raw data from Oxford Nanopore Technologies (ONT) and also enables hybrid assembly workflows combining ONT and Illumina reads. This workflow is based on the protocol by Jun Kim and Chuna Kim (2022), “A beginner’s guide to assembling a draft genome and analyzing structural variants with long-read sequencing technologies”. 
 
-## Usage
+## Usage of genseqn
+> Please cite the repository URL and DOI if used in a publication.
 
-The usage of this workflow is described in: 
-[Install Workflow](documentation/install_workflow.pdf)
+Detailed usage instructions can be found here: [Install Workflow](documentation/install_workflow.pdf)
 
-[Snakemake Workflow Catalog](https://snakemake.github.io/snakemake-workflow-catalog/?usage=<owner>%2F<repo>)
-
-If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) <repo>sitory and its DOI (see above).
-
-## Contents
-1. [Dependencies](#dependencies)
-2. [DAG-Plot](#example-dag-plot)
-3. [Install Miniconda and Mamba](#install-miniconda-and-mamba)
-4. [Create environment and install workflow](#create-environment-and-install-workflow)
-5. [Folder and data structure](#folder-and-data-structure)
-6. [Load samples and start the workflow](#load-samples-and-start-the-workflow)
-7. [Illumina Data](#illumina-data)
-8. [Load Samples with Python](#load-samples-with-python)
-9. [Run with Docker](#run-with-docker)
-10. [Optional Commands](#optional-commands)
-11. [References](#references)
+## Table of contents
+1. [Dependencies](#dependencies)  
+2. [DAG Plot Example](#dag-plot-example)  
+3. [Install Miniconda and Mamba](#install-miniconda-and-mamba)  
+4. [Create Environment and Install Workflow](#create-environment-and-install-workflow)  
+6. [Folder and Data Structure](#folder-and-data-structure)  
+7. [Load Samples and Start the Workflow](#load-samples-and-start-the-workflow)
+10. [Run with Docker](#run-with-docker)  
+11. [Optional Commands](#optional-commands)  
+12. [References](#references)
 
 ## Dependencies
-[Snakemake](https://snakemake.readthedocs.io/en/stable/), [Conda](https://conda.io/en/latest/index.html), [Python](https://www.python.org/), [R](https://www.r-project.org/)
 
-**The workflow should be started with [Linux](https://ubuntu.com/). How exactly the workflow should be installed is described in the instructions.**
+> **Recommended system:** [Linux (Ubuntu)](https://ubuntu.com/)
 
----
-## Example; DAG-Plot
-*Black rectangle indicates the rules used when Illumina data is included.*
+- [Snakemake](https://snakemake.readthedocs.io/en/stable/)  
+  Workflow management system used to define and execute the analysis pipeline.
 
-<img src="documentation/images/DAG-Plot.png" alt="logo" width="750"/>
+- [Conda](https://conda.io/en/latest/index.html)  
+  Package and environment manager used to install all required software in isolated environments.
 
----
+- [Python](https://www.python.org/)  
+  Required as the base language for Snakemake and many bioinformatics tools.
+
+- [R (Rscript)](https://www.r-project.org/)  
+  Used for optional downstream analysis or visualization steps in the workflow.
+
+## DAG Plot Example 
+
+<img src="documentation/images/DAG-Plot.png" alt="DAG Plot" width="700"/>
+
+**Fig. 1**: The Directed Acyclic Graph (DAG) illustrates the structure of the workflow.  
+Black rectangles indicate rules that are activated when Illumina data is included.
+
 ## Install Miniconda and Mamba
-*Workflow was tested on a Linux [Ubuntu] environment!*
 
-**First you have to install Miniconda3!**
-*Tested with: Conda 23.11.0*
+> This workflow was tested on a [Linux (Ubuntu)](https://ubuntu.com/) system.
 
-```shell
+### 1. Install Miniconda3  
+
+Download and install Miniconda:
+
+```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-```
-
-```shell
 chmod +x Miniconda3-latest-Linux-x86_64.sh
-```
-
-```shell
 ./Miniconda3-latest-Linux-x86_64.sh
 ```
 
-If you do not have Mamba installed in your conda environment!
-Tested with: Mamba 1.5.6
+> If you do not have Mamba installed in your conda environment. 
 
-```shell
+Install Mamba (optional but recommended)
+
+```bash
 conda install -c conda-forge mamba
 ```
----
 
 ## Create environment and install workflow
-**Create a folder for your workflow.**
+**1. Create a working directory for your project:**
 
-```shell
+```bash
 mkdir -p path/to/project-workdir
-```
-
-```shell
 cd path/to/project-workdir
 ```
+You can name the folder freely (e.g. genseqn_project) and place it wherever you prefer.
 
-**Download the Snakemake workflow from GitHub.**
-If you don’t have the workflow yet, you can download it from GitHub. Otherwise, if you already have the data, you can skip the following step.
+This will be your main working directory for running the genseqn pipeline.
 
-Download and unzip the workflow from GitHub. You can also download the workflow as a ZIP file and then unpack it in your project folder.
+**1. Download the Snakemake workflow from GitHub**
+
+If you don’t have the workflow yet, you can download it from GitHub.  
+Otherwise, if you already have the data locally, you can skip this step.
+
+Clone the repository into your project directory:
+> Alternatively, you can download the ZIP file from GitHub and unzip it manually.
 
 Clone repo from GitHub
-```shell
+```bash
 git clone https://github.com/dusti1n/DNA2A-seq-analyzer.git
 ```
 
-To install the environment with all packages, navigate to the project folder. It is important that you are in the parent folder. This folder contains, for example, the folder: config and workflow. The file (environment.yaml) is also located in the folder.
+**2. Create the conda environment**
 
-**Create an env and install all required packages.**
-```shell
+Navigate to the folder containing `environment.yaml`, `config/`, and `workflow/`.
+
+Create the environment and install all required packages using Conda:
+
+```bash
 conda env create -n snakenv -f environment.yaml
-```
-
-```shell
 conda activate snakenv
 ```
 
-If you have Mamba you can also use the following command.
-```shell
-mamba env create -n snakenv -f environment.yaml
-```
+Alternatively, using Mamba:
 
-```shell
+```bash
+mamba env create -n snakenv -f environment.yaml
 mamba activate snakenv
 ```
----
-## Folder and data structure
-<img src="documentation/images/folder_structure.jpg" alt="logo" width="750"/>
-</p>
 
----
+## Folder and data structure
+
+<img src="documentation/images/folder_structure.jpg" alt="logo" width="700"/></p>
+
+**Fig. 2**: This is an overview of what the folder and data structure should look like.
 
 ## Load samples and start the workflow
 
-**Open and set configfile (config.yaml) parameters. Set the path to the folder where your sample folders are located! The sample folders must have the following structure!**
+**1. Configure `config.yaml`**
 
-Example:
-+ smpl_01/ont/ontfile.fastq.gz; smpl_01/illumina/illuminafile_1.fastq
-+ smpl_01/illumina/illuminafile_2.fastq
+Set the path to your sample directory. Each sample must follow this folder structure ([Fig 2.](#folder-and-data-structure)):
 
-**The exact folder structure is shown in the image (folder_structure.jpg). It is important that the path to the folder (example_data) is set.**
-
-<space></space>
-*File: config.yaml*
-**All sample folders are then located in this folder**
 ```
-CONFIG; set sample_path: /path/to/example_data/
+example_data/
+├── smpl_01/
+│   ├── ont/ontfile.fastq.gz
+│   └── illumina/
+│       ├── illuminafile_1.fastq
+│       └── illuminafile_2.fastq
 ```
 
-**Set the project name for your samples; Example: drosophila_samples; This will create a subfolder in ’results’ with the project name you entered.**
-```
-CONFIG; set project_name: saccharomycetes_smpls
+Update the following fields in `config.yaml`:
+
+```yaml
+sample_path: /path/to/example_data/
+project_name: saccharomycetes_smpls
+save_dict: true
+canu_genome_size: "12m"
+busco_lineage: "saccharomycetes_odb10"
+fastqc_memory: "8192"
 ```
 
-**Set save_dict: true to save a JSON file (Dictonary) with your samples!**
-```
-CONFIG; set save_dict: true
+**2. Illumina Data (Optional)**
+
+If you also use Illumina data, set:
+
+```yaml
+illumina_data: true
+pilon_memory: "32G"
 ```
 
-**Determine the size of your genome! Example "12m" for Saccharomyces cerevisiae**
-```
-CONFIG; set canu_genome_size: "12m"
-```
+Set `illumina_data: false` if you're only using ONT data.
 
-**For a specific eukaryotic organism: [List of lineages](https://busco.ezlab.org/list_of_lineages.html)**
-```
-CONFIG; set busco_lineage: "saccharomycetes_odb10"
-```
+**3. Load Samples and Run Workflow**
 
-**FASTQC; Set memory; 8GB should be used as a minimum! Example(use of 8GB): fastqc_memory: "8192";**
-```
-CONFIG; set fastqc_memory: "8192"
-```
----
+Load samples via Python script:
 
-## Illumina Data
-#### This part is important if you also want to use illumina data!
-+ Set illumina_data: true; If you want to use Illumina data!
-+ Set illumina_data: false; If you don’t want to use Illumina data!
-```
-CONFIG; set illumina_data: true
-```
-
-**Pilon; Set Memory for JAVA heap Space; 32G = 32 Gigabyte;** 
-*8GB should be used as a minimum!*
-```
-CONFIG; set pilon_memory: "32G"
-```
----
-
-## Load Samples with Python
-#### First load all your samples with the Python script, then you can start the workflow! The Python script creates an automatic database for all your samples.
-
-```shell
+```bash
 python workflow/scripts/import_samples.py
 ```
 
-**Start the workflow with all available cores and install all packages.**
-Workflow creates a results folder with all analyzed samples.
+Run the full workflow using all available cores:
 
-```shell
+```bash
 snakemake --cores all --use-conda
 ```
----
+
+The results will be saved in a subfolder named after your `project_name`.
 
 ## Run with Docker
 
-#### Preparation
-1. Create a folder **<your_main_folder>**
-2. In your folder **<your_main_folder>** you have to create two more folders 
-**<your_main_folder/config>** and **<your_main_folder/results>**
-3. Go to the "config" folder and download config.yaml **<your_main_folder/config/config.yaml>**
-```shell
-wget https://raw.githubusercontent.com/dusti1n/DNA2A-seq-analyzer/master/config/config.yaml
+### Preparation
+
+1. Create a folder for your project (e.g. `<your_main_folder>`)
+2. Inside this folder, create two subfolders:
+   - `<your_main_folder>/config/`
+   - `<your_main_folder>/results/`
+3. Download the default `config.yaml` file into the `config/` folder:
+
+```bash
+wget https://raw.githubusercontent.com/dusti1n/DNA2A-seq-analyzer/master/config/config.yaml -P config/
 ```
-4. Move **<your_sample_folder>** to **<your_main_folder>**
-5. Configure the **config.yaml**
-**IMPORTANT: If you use docker, set sample_path: /app/<your_sample_folder>**
 
-#### Pull and start Docker image
-1. Go to your folder **<your_main_folder>**
+4. Move your sample folder (e.g. `example_data/`) into `<your_main_folder>/`
+5. Edit `config/config.yaml` accordingly.  
+   **Important:** When using Docker, set:
 
-2. Download the docker image **dna2a-seq-analyzer**
-```shell
+```yaml
+sample_path: /app/<your_sample_folder>
+```
+
+### Pull and Start Docker Image
+
+1. Navigate to your `<your_main_folder>` directory
+2. Pull the Docker image:
+
+```bash
 docker pull dusti1n/dna2a-seq-analyzer
 ```
 
-3. Start the image with the following command
-```shell
-docker run -it —name dna2a-seq-analyzer -v </host/your_main_folder/results>:/app/results -v </host/your_main_folder/your_sample_folder/>:/app/your_sample_folder -v </host/your_main_folder/config/>:/app/config dusti1n/dna2a-seq-analyzer:latest
+3. Start the container:
+
+```bash
+docker run -it --name dna2a-seq-analyzer \
+  -v /host/path/to/<your_main_folder>/results:/app/results \
+  -v /host/path/to/<your_main_folder>/<your_sample_folder>:/app/<your_sample_folder> \
+  -v /host/path/to/<your_main_folder>/config:/app/config \
+  dusti1n/dna2a-seq-analyzer:latest
 ```
 
-; --name; gives the container a user-defined name
-; --v; used to bind directories or files from the system to the container.
-; --it; keeps the standard input (STDIN) of the container open
+**Explanation:**
 
-**It is important that you have entered the full path correctly.
-"host" describes your local system.**
+- `--name` gives the container a custom name
+- `-v` binds local folders into the container
+- `-it` keeps STDIN open and allocates a pseudo-TTY  
+- `"host"` refers to the absolute path on your local system
 
-#### Start Workflow
-1. Activate Conda environment
-```shell
+Make sure the full paths are entered correctly!
+
+### Start Workflow in Docker
+
+1. Activate the Conda environment:
+
+```bash
 conda activate snakenv
 ```
 
-2. Load your samples and start the workflow; [Load Samples with Python](#load-samples-with-python); If you use Illumina data; [Illumina Data](#illumina-data);
-
-
----
+2. Load your samples and start the workflow:  
+   - [Load Samples with Python](#load-samples-and-start-the-workflow)
 
 ## Optional Commands
 
-**Create a flowchart (DAG-Plot)**
-```shell
+**Create a DAG plot (flowchart of the workflow):**
+
+```bash
 snakemake --dag | dot -Tpng > dag.png
 ```
----
 
 ## References
 
-**STAR Protocols**
-- [Jun Kim and Chuna Kim - A beginner’s guide to assembling a draft genome and analyzing structural variants with long-read sequencing technologies](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9254108/)
+- [Jun Kim & Chuna Kim – Assembling a draft genome and analyzing structural variants with long-read sequencing](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9254108/)
+- [Snakemake Documentation](https://snakemake.readthedocs.io/en/stable/)
+- [Snakemake GitHub Repository](https://github.com/snakemake/snakemake)
 
-**Snakemake**
-- [Felix Mölder, Kim Philipp Jablonski, Brice Letcher, Michael B. Hall, Christopher H. Tomkins-Tinch, Vanessa Sochat, Jan Forster, Soohyun Lee, Sven O. Twardziok, Alexander Kanitz, Andreas Wilm, Manuel Holtgrewe, Sven Rahmann, Sven Nahnsen, Johannes Köster - Sustainable data analysis with Snakemake](https://doi.org/10.12688/f1000research.29032.1)
-- [Snakemake.github.io](https://snakemake.github.io/)
