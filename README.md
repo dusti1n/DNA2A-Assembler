@@ -1,4 +1,4 @@
-# Snakemake workflow: `DNA2A-seq-analyzer`
+# Snakemake workflow: `DNA2A-Assembler`
 
 DNA2A (DNA (A)ssembly and (A)nalyzer) is a comprehensive toolkit for the automated analysis of eukaryotic long-read sequencing data with [Snakemake](https://snakemake.readthedocs.io/en/stable/). The bioinformatics tool is suitable for raw data from Oxford Nanopore Technologies (ONT) as well as for hybrid sequencing (ONT + Illumina).
 
