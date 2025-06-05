@@ -9,14 +9,14 @@ Detailed usage instructions can be found here: [Install Workflow](documentation/
 
 ## Table of contents
 1. [Dependencies](#dependencies)  
-2. [DAG Plot Example](#dag-plot-example)  
-3. [Install Miniconda and Mamba](#install-miniconda-and-mamba)  
-4. [Create Environment and Install Workflow](#create-environment-and-install-workflow)  
-6. [Folder and Data Structure](#folder-and-data-structure)  
-7. [Load Samples and Start the Workflow](#load-samples-and-start-the-workflow)
-10. [Run with Docker](#run-with-docker)  
-11. [Optional Commands](#optional-commands)  
-12. [References](#references)
+1. [DAG Plot Example](#dag-plot-example)  
+1. [Install Miniconda and Mamba](#install-miniconda-and-mamba)  
+1. [Create Environment and Install Workflow](#create-environment-and-install-workflow)  
+1. [Folder and Data Structure](#folder-and-data-structure)  
+1. [Load Samples and Start the Workflow](#load-samples-and-start-the-workflow)  
+1. [Run with Docker](#run-with-docker)  
+1. [Optional Commands](#optional-commands)  
+1. [References](#references)
 
 ## Dependencies
 
@@ -107,7 +107,7 @@ mamba activate snakenv
 
 ## Folder and data structure
 
-<img src="documentation/images/folder_structure.jpg" alt="logo" width="700"/></p>
+<img src="documentation/images/folder_structure.jpg" alt="logo" width="700"/>
 
 **Fig. 2**: This is an overview of what the folder and data structure should look like.
 
